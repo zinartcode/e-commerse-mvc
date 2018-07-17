@@ -8,9 +8,7 @@ class Router {
   public function __construct ()
   {
       $routesPath = ROOT.'/config/routes.php';
-      // echo $routesPath."<br>";
       $this->routes = include($routesPath);
-
   }
 
 /*
@@ -19,7 +17,7 @@ class Router {
   private function getURI()
   {
     if (!empty($_SERVER['REQUEST_URI'])) {
-      return trim($_SERVER['REQUEST_URI']);
+      return trim($_SERVER['REQUEST_URI'], '/');
     }
   }
 
@@ -35,20 +33,38 @@ class Router {
     //   COMPARE $uriPattern AND $uri
       if (preg_match("~$uriPattern~", $uri)) {
 
+    // GET INTERNALL PATH
+    $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+
     // DETERMINE WHICH CONTROLLER AND ACTION HANDLE REQUEST
-        $segments = explode('/', $path);
-        $controllerName = ucfirst(array_shift($segments).'Controller');
+        $segments = explode('/', $internalRoute);
+        print_r($segments);
+        // TEST ROUTE DEPENDING ON SERVER SETTINGS
+        array_shift($segments); //comment if not necessary
+        $controllerName = array_shift($segments).'Controller';
+        // echo '<br>controller name: '.$controllerName;
+        $controllerName = ucfirst($controllerName);
+        // echo '<br>controller name: '.$controllerName;
         $actionName = 'action'.ucfirst(array_shift($segments));
+
+        // echo '<br>controller name: '.$controllerName;
+        // echo '<br>action name: '.$actionName;
+        $parameters = $segments;
 
     //CONNECT THE FILE OF CLASS CONTROLLER
         $controllerFile = ROOT.'/controllers/'.$controllerName.'.php';
+        echo '<br>'.$controllerFile;
         if (file_exists($controllerFile)) {
           require_once($controllerFile);
 
     // CREATE OBJECT AND CALL AN ACTION (METHOD)
         $controllerObject = new $controllerName;
-        $result = $controllerObject->actionName;
-        if ($resul != null) {
+        echo '<br>'.$controllerFile;
+        var_dump($controllerObject);
+        print_r($parameters);
+        print_r($controllerName);
+        $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
+        if ($result != null) {
             break;
           }
         }

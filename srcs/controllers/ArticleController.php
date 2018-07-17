@@ -3,7 +3,8 @@
 class ArticleController
 {
 
-  public function actionIndex {
+  public function actionIndex() {
+    echo 'ArticleController actionIndex';
     return true;
   }
 }

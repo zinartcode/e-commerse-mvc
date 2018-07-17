@@ -3,7 +3,8 @@
 class ProductController
 {
 
-  public function actionIndex {
+  public function actionIndex() {
+    echo 'Product controller actionIndex';
     return true;
   }
 }
