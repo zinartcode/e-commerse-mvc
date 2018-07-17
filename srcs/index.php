@@ -13,6 +13,7 @@ error_reporting(E_ALL);
 define ('ROOT', dirname(__FILE__));
 // echo ROOT."<br>";
 require_once(ROOT.'/components/Router.php');
+require_once(ROOT.'/components/Db.php');
 
 // 3. CONNECT DATABASE
 

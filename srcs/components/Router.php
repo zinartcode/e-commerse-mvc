@@ -38,7 +38,7 @@ class Router {
 
     // DETERMINE WHICH CONTROLLER AND ACTION HANDLE REQUEST
         $segments = explode('/', $internalRoute);
-        print_r($segments);
+        // print_r($segments);
         // TEST ROUTE DEPENDING ON SERVER SETTINGS
         array_shift($segments); //comment if not necessary
         $controllerName = array_shift($segments).'Controller';
@@ -53,16 +53,12 @@ class Router {
 
     //CONNECT THE FILE OF CLASS CONTROLLER
         $controllerFile = ROOT.'/controllers/'.$controllerName.'.php';
-        echo '<br>'.$controllerFile;
+
         if (file_exists($controllerFile)) {
           require_once($controllerFile);
 
     // CREATE OBJECT AND CALL AN ACTION (METHOD)
         $controllerObject = new $controllerName;
-        echo '<br>'.$controllerFile;
-        var_dump($controllerObject);
-        print_r($parameters);
-        print_r($controllerName);
         $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
         if ($result != null) {
             break;
