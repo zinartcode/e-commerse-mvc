@@ -11,7 +11,7 @@ error_reporting(E_ALL);
 // 2. CONNECT FILES
 
 define ('ROOT', dirname(__FILE__));
-echo ROOT."<br>";
+// echo ROOT."<br>";
 require_once(ROOT.'/components/Router.php');
 
 // 3. CONNECT DATABASE
